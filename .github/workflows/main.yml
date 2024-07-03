@@ -26,7 +26,7 @@ jobs:
 
       - name: Run Trivy vulnerability scan
         run: |
-          trivy image ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
+          trivy image ${{ secrets.DOCKER_USERNAME }}/mywebapp:${{ github.sha }}
         continue-on-error: true            
 
       - name: Login to ArgoCD
