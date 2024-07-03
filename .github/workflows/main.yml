@@ -1,0 +1,39 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: mg-runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}               
+
+      - name: Run Trivy vulnerability scan
+        run: |
+          trivy image ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
+        continue-on-error: true            
+
+      - name: Login to ArgoCD
+        run: |
+          argocd login localhost:8080 --username admin --password ${{ secrets.ARGOCD_PASSWORD }}
+
+      - name: Update ArgoCD application
+        run: |
+          argocd app set myapp --helm-set image.tag=${{ github.sha }}
+          argocd app sync myapp
