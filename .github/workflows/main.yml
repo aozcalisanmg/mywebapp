@@ -35,5 +35,5 @@ jobs:
 
       - name: Update ArgoCD application
         run: |
-          argocd app set myapp --helm-set image.tag=${{ github.sha }}
+          argocd app set myapp --helm-set image.repository=aozcalisanmg/mywebapp --helm-set image.tag=${{ github.sha }}
           argocd app sync myapp
