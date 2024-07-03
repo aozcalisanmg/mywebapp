@@ -21,8 +21,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }} .
-          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}               
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/mywebapp:${{ github.sha }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/mywebapp:${{ github.sha }}               
 
       - name: Run Trivy vulnerability scan
         run: |
