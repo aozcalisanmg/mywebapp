@@ -3,7 +3,6 @@ name: Trigger Workflows Pipeline
 on:
   push:
     branches:
-      - main
       - development
 
 jobs:
