@@ -21,7 +21,7 @@ jobs:
 
       - name: Set workflow file name
         id: set-workflow
-        run: echo "WORKFLOW_FILE=${REPO_NAME}.yaml" >> $GITHUB_ENV
+        run: echo "WORKFLOW_FILE=${REPO_NAME}.yml" >> $GITHUB_ENV
 
       - name: Trigger Workflow in Workflows Repository
         uses: benc-uk/workflow-dispatch@v1
