@@ -1,23 +1,32 @@
-name: Trigger Workflows Pipeline
+name: Trigger Workflow
 
 on:
   push:
     branches:
       - development
+      - stage
+      - main
+
+env: 
+  GITHUB_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+  REPO_NAME: ${{github.event.repository.name}}
 
 jobs:
-  trigger-workflows-pipeline:
+  trigger_external_workflow:
     runs-on: mg-runner
 
     steps:
-      - name: Checkout Mywebapp repository
+      - name: Checkout this repository
         uses: actions/checkout@v2
 
-      - name: Trigger Workflows repository pipeline
+      - name: Set workflow file name
+        id: set-workflow
+        run: echo "WORKFLOW_FILE=${REPO_NAME}.yaml" >> $GITHUB_ENV
+
+      - name: Trigger Workflow in Workflows Repository
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: mywebapp.yml
+          workflow: ${{ env.WORKFLOW_FILE }}
           token: ${{ secrets.GITHUB_TOKEN }}
           repo: aozcalisanmg/workflows
-          owner: aozcalisanmg
           ref: main
