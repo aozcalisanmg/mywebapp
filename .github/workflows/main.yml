@@ -25,10 +25,7 @@ jobs:
 
       - name: Trigger Workflow in Workflows Repository
         run: |
-          curl -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/aozcalisanmg/workflows/actions/workflows/${{ env.WORKFLOW_FILE }}/dispatches \
-            -d '{"ref":"main"}'
+          curl -X POST \
+           -H "Authorization: Bearer $GITHUB_TOKEN" \
+           -H "Accept: application/vnd.github.v3+json" \
+           https://api.github.com/repos/aozcalisanmg/workflows/actions/workflows/mywebapp.yml/dispatches -d '{"ref": "main"}'
